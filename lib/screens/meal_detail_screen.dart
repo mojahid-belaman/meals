@@ -29,18 +29,32 @@ class MealDetailScreen extends ConsumerWidget {
                   duration: const Duration(seconds: 1),
                 ));
               },
-              icon: Icon(
-                  isExist ? Icons.favorite : Icons.favorite_border_outlined))
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) {
+                  return RotationTransition(
+                    turns: Tween<double>(begin: 0.5, end: 1).animate(animation),
+                    child: child,
+                  );
+                },
+                child: Icon(
+                  isExist ? Icons.favorite : Icons.favorite_border_outlined,
+                  key: ValueKey(favoriteMeals),
+                ),
+              )),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
-              meal.imageUrl,
-              fit: BoxFit.cover,
-              height: 300,
-              width: double.infinity,
+            Hero(
+              tag: meal.id,
+              child: Image.network(
+                meal.imageUrl,
+                fit: BoxFit.cover,
+                height: 300,
+                width: double.infinity,
+              ),
             ),
             const SizedBox(
               height: 15,
